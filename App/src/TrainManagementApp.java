@@ -1,11 +1,14 @@
 import java.util.*;
+import java.util.stream.*;
 
 class Bogie {
     String bogieId;
+    String type;
     int capacity;
 
-    Bogie(String bogieId, int capacity) {
+    Bogie(String bogieId, String type, int capacity) {
         this.bogieId = bogieId;
+        this.type = type;
         this.capacity = capacity;
     }
 }
@@ -19,36 +22,31 @@ class Train {
         this.bogies = new ArrayList<>();
     }
 
-    void addBogie(String id, int capacity) {
-        bogies.add(new Bogie(id, capacity));
+    void addBogie(String id, String type, int capacity) {
+        bogies.add(new Bogie(id, type, capacity));
     }
 
-    void sortByCapacity() {
-        Collections.sort(bogies, new Comparator<Bogie>() {
-            public int compare(Bogie b1, Bogie b2) {
-                return Integer.compare(b1.capacity, b2.capacity);
-            }
-        });
-    }
+    void filterPassengerBogies() {
+        List<Bogie> result = bogies.stream()
+                .filter(b -> b.type.equalsIgnoreCase("Passenger"))
+                .collect(Collectors.toList());
 
-    void display() {
         System.out.println("Train: " + trainName);
-        for (Bogie b : bogies) {
-            System.out.println(b.bogieId + " - Capacity: " + b.capacity);
+        for (Bogie b : result) {
+            System.out.println(b.bogieId + " - " + b.type + " - Capacity: " + b.capacity);
         }
     }
 }
 
 public class TrainApp {
     public static void main(String[] args) {
-        Train train = new Train("Express 707");
+        Train train = new Train("Express 808");
 
-        train.addBogie("B1", 72);
-        train.addBogie("B2", 64);
-        train.addBogie("B3", 48);
-        train.addBogie("B4", 90);
+        train.addBogie("B1", "Passenger", 72);
+        train.addBogie("B2", "Cargo", 100);
+        train.addBogie("B3", "Passenger", 64);
+        train.addBogie("B4", "Engine", 0);
 
-        train.sortByCapacity();
-        train.display();
+        train.filterPassengerBogies();
     }
 }
