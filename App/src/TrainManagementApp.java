@@ -2,40 +2,34 @@ import java.util.*;
 
 class Train {
     String trainName;
-    LinkedHashSet<String> bogieIds;
+    HashMap<String, Integer> bogieCapacityMap;
 
     Train(String trainName) {
         this.trainName = trainName;
-        this.bogieIds = new LinkedHashSet<>();
+        this.bogieCapacityMap = new HashMap<>();
     }
 
-    void addBogie(String bogieId) {
-        if (bogieIds.add(bogieId)) {
-            System.out.println("Added Bogie: " + bogieId);
-        } else {
-            System.out.println("Duplicate Bogie ID: " + bogieId);
-        }
+    void addBogie(String bogieId, int capacity) {
+        bogieCapacityMap.put(bogieId, capacity);
     }
 
-    void displayBogies() {
+    void displayBogieCapacity() {
         System.out.println("Train: " + trainName);
-        for (String id : bogieIds) {
-            System.out.println(id);
+        for (Map.Entry<String, Integer> entry : bogieCapacityMap.entrySet()) {
+            System.out.println(entry.getKey() + " - Capacity: " + entry.getValue());
         }
     }
 }
 
 public class TrainApp {
     public static void main(String[] args) {
-        Train train = new Train("Express 505");
+        Train train = new Train("Express 606");
 
-        train.addBogie("B3");
-        train.addBogie("B1");
-        train.addBogie("B5");
-        train.addBogie("B2");
-        train.addBogie("B4");
-        train.addBogie("B1");
+        train.addBogie("B1", 72);
+        train.addBogie("B2", 64);
+        train.addBogie("B3", 48);
+        train.addBogie("B4", 90);
 
-        train.displayBogies();
+        train.displayBogieCapacity();
     }
 }
