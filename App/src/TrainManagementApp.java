@@ -1,41 +1,54 @@
 import java.util.*;
 
+class Bogie {
+    String bogieId;
+    int capacity;
+
+    Bogie(String bogieId, int capacity) {
+        this.bogieId = bogieId;
+        this.capacity = capacity;
+    }
+}
+
 class Train {
     String trainName;
-    LinkedHashSet<String> bogieIds;
+    List<Bogie> bogies;
 
     Train(String trainName) {
         this.trainName = trainName;
-        this.bogieIds = new LinkedHashSet<>();
+        this.bogies = new ArrayList<>();
     }
 
-    void addBogie(String bogieId) {
-        if (bogieIds.add(bogieId)) {
-            System.out.println("Added Bogie: " + bogieId);
-        } else {
-            System.out.println("Duplicate Bogie ID: " + bogieId);
-        }
+    void addBogie(String id, int capacity) {
+        bogies.add(new Bogie(id, capacity));
     }
 
-    void displayBogies() {
+    void sortByCapacity() {
+        Collections.sort(bogies, new Comparator<Bogie>() {
+            public int compare(Bogie b1, Bogie b2) {
+                return Integer.compare(b1.capacity, b2.capacity);
+            }
+        });
+    }
+
+    void display() {
         System.out.println("Train: " + trainName);
-        for (String id : bogieIds) {
-            System.out.println(id);
+        for (Bogie b : bogies) {
+            System.out.println(b.bogieId + " - Capacity: " + b.capacity);
         }
     }
 }
 
 public class TrainApp {
     public static void main(String[] args) {
-        Train train = new Train("Express 505");
+        Train train = new Train("Express 707");
 
-        train.addBogie("B3");
-        train.addBogie("B1");
-        train.addBogie("B5");
-        train.addBogie("B2");
-        train.addBogie("B4");
-        train.addBogie("B1");
+        train.addBogie("B1", 72);
+        train.addBogie("B2", 64);
+        train.addBogie("B3", 48);
+        train.addBogie("B4", 90);
 
-        train.displayBogies();
+        train.sortByCapacity();
+        train.display();
     }
 }
