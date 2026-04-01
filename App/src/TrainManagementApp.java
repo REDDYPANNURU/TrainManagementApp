@@ -2,11 +2,11 @@ import java.util.*;
 
 class Train {
     String trainName;
-    HashSet<String> bogieIds;
+    SortedSet<String> bogieIds;
 
     Train(String trainName) {
         this.trainName = trainName;
-        this.bogieIds = new HashSet<>();
+        this.bogieIds = new TreeSet<>();
     }
 
     void addBogie(String bogieId) {
@@ -27,13 +27,14 @@ class Train {
 
 public class TrainApp {
     public static void main(String[] args) {
-        Train train = new Train("Express 303");
+        Train train = new Train("Express 404");
 
-        train.addBogie("B1");
-        train.addBogie("B2");
         train.addBogie("B3");
+        train.addBogie("B1");
+        train.addBogie("B5");
         train.addBogie("B2");
         train.addBogie("B4");
+        train.addBogie("B2");
 
         train.displayBogies();
     }
