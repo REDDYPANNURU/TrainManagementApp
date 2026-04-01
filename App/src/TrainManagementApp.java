@@ -26,27 +26,31 @@ class Train {
         bogies.add(new Bogie(id, type, capacity));
     }
 
-    void filterPassengerBogies() {
-        List<Bogie> result = bogies.stream()
-                .filter(b -> b.type.equalsIgnoreCase("Passenger"))
-                .collect(Collectors.toList());
+    void groupByType() {
+        Map<String, List<Bogie>> grouped = bogies.stream()
+                .collect(Collectors.groupingBy(b -> b.type));
 
         System.out.println("Train: " + trainName);
-        for (Bogie b : result) {
-            System.out.println(b.bogieId + " - " + b.type + " - Capacity: " + b.capacity);
+
+        for (Map.Entry<String, List<Bogie>> entry : grouped.entrySet()) {
+            System.out.println("Type: " + entry.getKey());
+            for (Bogie b : entry.getValue()) {
+                System.out.println(b.bogieId + " - Capacity: " + b.capacity);
+            }
         }
     }
 }
 
 public class TrainApp {
     public static void main(String[] args) {
-        Train train = new Train("Express 808");
+        Train train = new Train("Express 909");
 
         train.addBogie("B1", "Passenger", 72);
         train.addBogie("B2", "Cargo", 100);
         train.addBogie("B3", "Passenger", 64);
         train.addBogie("B4", "Engine", 0);
+        train.addBogie("B5", "Cargo", 120);
 
-        train.filterPassengerBogies();
+        train.groupByType();
     }
 }
